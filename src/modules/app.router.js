@@ -1,5 +1,7 @@
 import categoriesRouter from './categories/categories.router.js';
 import productsRouter from './products/products.router.js';
+import authRouter from './auth/auth.router.js';
+
 import connectDB from '../../DB/connection.js';
 const initapp = (app, express) => {
   app.use(express.json());
@@ -9,6 +11,7 @@ const initapp = (app, express) => {
   });
   app.use('/categories', categoriesRouter);
   app.use('/products', productsRouter);
+  app.use('/auth',authRouter);
   app.get('*', (req, res) => {
     return res.status(500).json({ message: "Page not found.." });
   });
