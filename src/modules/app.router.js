@@ -11,7 +11,7 @@ const initapp = (app, express) => {
   });
   app.use('/categories', categoriesRouter);
   app.use('/products', productsRouter);
-  app.use('/auth',authRouter);
+  app.use('/auth', authRouter);
   app.get('*', (req, res) => {
     return res.status(500).json({ message: "Page not found.." });
   });

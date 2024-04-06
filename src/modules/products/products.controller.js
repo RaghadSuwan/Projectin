@@ -1,4 +1,4 @@
-export const getProducts =(req, res)=>{
-    return res.json({message:"Products .."});
+export const getProducts = (req, res) => {
+    return res.json({ message: "Products .." });
 
 }

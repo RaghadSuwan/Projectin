@@ -1,7 +1,7 @@
 import userModel from '../../../DB/model/user.model.js';
 import bcryptjs from 'bcryptjs';
 import cloudinary from '../../services/cloudinary.js';
-
+import jwt from 'jsonwebtoken';
 export const SignUp = async (req, res) => {
     const { userName, email, password } = req.body;
     const user = await userModel.findOne({ email });
@@ -19,14 +19,17 @@ export const SignUp = async (req, res) => {
     return res.status(201).json({ message: "Success", user: createUser });
 }
 export const SignIn = async (req, res) => {
-    const {email, password } = req.body;
+    const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(409).json({ message: 'data invalid' });
+        return res.status(409).json({ message: 'data invalid' });
     }
     const match = await bcryptjs.compare(password, user.password);
     if (!match) {
         return res.status(409).json({ message: 'data invalid' });
-      }
-    return res.status(201).json({ message: "Success", user });
-  }
+    }
+    const token = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: '5m' });
+    const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: 60*60*30*24 });
+
+    return res.status(201).json({ message: "Success", token, refreshToken });
+}
