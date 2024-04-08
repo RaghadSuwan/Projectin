@@ -9,7 +9,7 @@ export const CreateCoupon = async (req, res) => {
     return res.status(200).json({ message: "Success", coupon });
 }
 export const GetCoupon = async (req, res) => {
-    const coupons = await couponModel.find({});
+    const coupons = await couponModel.find({ isDeleted: false });
     return res.status(200).json({ message: "Success", coupons });
 }
 export const UpdateCoupon = async (req, res) => {
@@ -34,4 +34,34 @@ export const UpdateCoupon = async (req, res) => {
     await coupon.save();
     return res.status(200).json({ message: "Success", coupon });
 
+}
+export const SoftDelete = async (req, res) => {
+    const { id } = req.params;
+    const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: false }, { isDeleted: true },
+        { new: true });
+    if (!coupon) {
+        return res.status(200).json({ message: "Can't delete this coupon" });
+
+
+    }
+    return res.status(200).json({ message: "Success" });
+}
+export const HardDelete = async (req, res) => {
+    const { id } = req.params;
+    const coupon = await couponModel.findOneAndDelete({ _id: id, isDeleted: true })
+    if (!coupon) {
+        return res.status(200).json({ message: "Can't delete this coupon" });
+    }
+    return res.status(200).json({ message: "Success" });
+}
+export const Restore = async (req, res) => {
+    const { id } = req.params;
+    const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: true }, { isDeleted: false },
+        { new: true });
+    if (!coupon) {
+        return res.status(200).json({ message: "Can't restore this coupon" });
+
+
+    }
+    return res.status(200).json({ message: "Success" });
 }
