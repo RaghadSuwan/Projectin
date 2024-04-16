@@ -28,8 +28,8 @@ export const SignIn = async (req, res) => {
     if (!match) {
         return res.status(409).json({ message: 'data invalid' });
     }
-    const token = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: '5m' });
-    const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: 60*60*30*24 });
+    const token = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: '50m' });
+    const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: 60 * 60 * 30 * 24 });
 
     return res.status(201).json({ message: "Success", token, refreshToken });
 }

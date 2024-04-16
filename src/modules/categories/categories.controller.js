@@ -1,6 +1,7 @@
 import slugify from "slugify";
 import cloudinary from "../../services/cloudinary.js";
 import categoryModel from "../../../DB/model/category.model.js";
+
 export const getCategories = async (req, res) => {
   const Categories = await categoryModel.find().populate('subcategory');
 
@@ -28,6 +29,8 @@ export const createcategory = async (req, res) => {
     name,
     slug: slugify(name),
     image: { secure_url, public_id },
+    createdBy: req.user._id,
+    updatedBy: req.user._id
   });
   return res
     .status(200)
@@ -77,6 +80,7 @@ export const updatecategory = async (req, res) => {
       }
       category.image = { secure_url, public_id };
     }
+    category.updatedBy = req.user._id;
     await category.save();
     return res.status(200).json({ message: "Category updated successfully" });
   } catch (err) {
