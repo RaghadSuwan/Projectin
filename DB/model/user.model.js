@@ -4,7 +4,7 @@ const userSchema = new Schema(
     userName: {
       type: String,
       required: true,
-      min: 3,// هاي للداتا بيس valdition
+      min: 3,
       max: 20,
     },
     email: {
@@ -28,7 +28,7 @@ const userSchema = new Schema(
     },
     confirmEmail: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     gender: {
       type: String,
@@ -46,7 +46,7 @@ const userSchema = new Schema(
     },
   },
   {
-    timestamps: true,//وينتا سجل
+    timestamps: true,
   }
 );
 

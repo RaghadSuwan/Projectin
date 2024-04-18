@@ -7,6 +7,7 @@ router.post(
     fileUpload(fileValidation.image).single('image'),
     AuthController.SignUp
 );
+router.get('/confirmEmail/:token', AuthController.confirmEmail);
 router.post('/signin', AuthController.SignIn);
 export default router;
 

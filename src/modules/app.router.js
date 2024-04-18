@@ -2,10 +2,9 @@ import categoriesRouter from './categories/categories.router.js';
 import subcategoryRouter from './subcategory/subcategory.router.js';
 import productsRouter from './products/products.router.js';
 import couponRouter from './coupon/coupon.router.js';
-
 import authRouter from './auth/auth.router.js';
 import connectDB from '../../DB/connection.js';
-const initapp = (app, express) => {
+const initapp = async (app, express) => {
   app.use(express.json());
   connectDB();
   app.get('/', (req, res) => {
