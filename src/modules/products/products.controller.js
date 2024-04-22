@@ -4,10 +4,10 @@ import subcategoryModel from "../../../DB/model/subcategory.model.js";
 import cloudinary from "../../services/cloudinary.js";
 import productModel from "../../../DB/model/product.model.js";
 
-export const getProducts = (req, res) => {
+export const getProducts = (req, res, next) => {
     return res.json({ message: "Products .." });
 }
-export const createProducts = async (req, res) => {
+export const createProducts = async (req, res, next) => {
     const { name, price, discount, categoryId, subcategoryId } = req.body;
     const checkCategory = await categoryModel.findById(categoryId);
     if (!checkCategory) {

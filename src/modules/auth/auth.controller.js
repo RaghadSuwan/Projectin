@@ -4,11 +4,11 @@ import cloudinary from '../../services/cloudinary.js';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
 import { sendemail } from '../../services/email.js';
-export const SignUp = async (req, res) => {
+export const SignUp = async (req, res, next) => {
     const { userName, email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (user) {
-        return res.status(409).json({ message: 'email already exists' });
+        return next(new Error("email already exists", { cause: 409 }));
     }
     const hashedPassword = await bcryptjs.hash(password, parseInt(process.env.SALT_ROUND));
     const { secure_url, public_id } = await cloudinary.uploader.upload(
@@ -26,20 +26,19 @@ export const SignUp = async (req, res) => {
     const createUser = await userModel.create({ userName, email, password: hashedPassword, image: { secure_url, public_id } });
     return res.status(201).json({ message: "Success", user: createUser });
 };
-export const confirmEmail = async (req, res) => {
+export const confirmEmail = async (req, res, next) => {
     const token = req.params.token;
     try {
         const decodedToken = jwt.verify(token, process.env.CONFIRMEMAILSECRET);
         if (!decodedToken) {
-            return res.status(404).json({ message: "Invalid Authorization Token" });
+            return next(new Error("Invalid Authorization Token", { cause: 409 }));
         }
         const user = await userModel.findOneAndUpdate(
             { email: decodedToken.email, confirmEmail: false },
             { confirmEmail: true });
         if (!user) {
-            return res.status(400).json({
-                message: "Invalid: Email is already verified or does not exist",
-            });
+            return next(new Error("Invalid: Email is already verified or does not exist", { cause: 409 }));
+
         }
         return res.redirect(process.env.LOGINFRONTEND);
         /// return res.status(200).json({ message: "Your email is verified" });
@@ -47,8 +46,12 @@ export const confirmEmail = async (req, res) => {
         console.error("Error in confirmEmail:", error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
+    
+    ///ارجعي لسطر 46***********************************
+
+
 };
-export const SignIn = async (req, res) => {
+export const SignIn = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
@@ -68,7 +71,7 @@ export const SignIn = async (req, res) => {
 
     return res.status(201).json({ message: "Success", token, refreshToken });
 };
-export const sendCode = async (req, res) => {
+export const sendCode = async (req, res, next) => {
     const { email } = req.body;
     try {
         const user = await userModel.findOne({ email });
@@ -90,7 +93,7 @@ export const sendCode = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };
-export const forgotPassword = async (req, res) => {
+export const forgotPassword = async (req, res, next) => {
     const { email, password, code } = req.body;
     const user = await userModel.findOne({ email });
 

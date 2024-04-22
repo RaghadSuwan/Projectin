@@ -1,6 +1,6 @@
 import couponModel from "../../../DB/model/coupon.model.js";
 
-export const CreateCoupon = async (req, res) => {
+export const CreateCoupon = async (req, res, next) => {
     const { name, amount } = req.body;
     if (await couponModel.findOne({ name })) {
         return res.status(409).json({ message: "Coupon name already exists" });
@@ -8,11 +8,11 @@ export const CreateCoupon = async (req, res) => {
     const coupon = await couponModel.create(req.body);
     return res.status(200).json({ message: "Success", coupon });
 }
-export const GetCoupon = async (req, res) => {
+export const GetCoupon = async (req, res, next) => {
     const coupons = await couponModel.find({ isDeleted: false });
     return res.status(200).json({ message: "Success", coupons });
 }
-export const UpdateCoupon = async (req, res) => {
+export const UpdateCoupon = async (req, res, next) => {
     const coupon = await couponModel.findById(req.params.id);
     if (!coupon) {
         return res
@@ -35,7 +35,7 @@ export const UpdateCoupon = async (req, res) => {
     return res.status(200).json({ message: "Success", coupon });
 
 }
-export const SoftDelete = async (req, res) => {
+export const SoftDelete = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: false }, { isDeleted: true },
         { new: true });
@@ -46,7 +46,7 @@ export const SoftDelete = async (req, res) => {
     }
     return res.status(200).json({ message: "Success" });
 }
-export const HardDelete = async (req, res) => {
+export const HardDelete = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndDelete({ _id: id, isDeleted: true })
     if (!coupon) {
@@ -54,7 +54,7 @@ export const HardDelete = async (req, res) => {
     }
     return res.status(200).json({ message: "Success" });
 }
-export const Restore = async (req, res) => {
+export const Restore = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: true }, { isDeleted: false },
         { new: true });

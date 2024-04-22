@@ -3,7 +3,7 @@ import subcategoryModel from "../../../DB/model/subcategory.model.js";
 import slugify from "slugify";
 import cloudinary from "../../services/cloudinary.js";
 
-export const CreateSubCategory = async (req, res) => {
+export const CreateSubCategory = async (req, res, next) => {
     const { name, categoryId } = req.body;
     if (await subcategoryModel.findOne({ name })) {
         return res.status(409).json({ message: `Sub Category ${name} already exists` });
@@ -32,7 +32,7 @@ export const CreateSubCategory = async (req, res) => {
     }
 }
 
-export const GetSubCategories = async (req, res) => {
+export const GetSubCategories = async (req, res, next) => {
     const categoryId = req.params.id;
 
     const category = await categoryModel.findById(categoryId)
@@ -41,7 +41,7 @@ export const GetSubCategories = async (req, res) => {
         return res.status(404).json({ message: 'Category not found' });
     }
 
-    const subCategory = await subcategoryModel.find({ categoryId }).populate({path:'categoryId'});
+    const subCategory = await subcategoryModel.find({ categoryId }).populate({ path: 'categoryId' });
     return res.status(200).json({ message: "Success", subCategory });
 
 }
