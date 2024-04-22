@@ -52,11 +52,14 @@ export const SignIn = async (req, res) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-        return res.status(409).json({ message: 'data invalid' });
+        return res.status(400).json({ message: 'data invalid' });
+    }
+    if (!user.confirmEmail) {
+        return res.status(400).json({ message: 'Please confirm your email' });
     }
     const match = await bcryptjs.compare(password, user.password);
     if (!match) {
-        return res.status(409).json({ message: 'data invalid' });
+        return res.status(400).json({ message: 'data invalid' });
     }
     const token = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET
         // , { expiresIn: '50m' }
@@ -80,8 +83,8 @@ export const sendCode = async (req, res) => {
         );
         const html = `<h2>The code is: ${code}</h2>`;
         await sendemail(email, `Reset Password`, html);
-       // return res.redirect(process.env.FORGETPASSFRONT);
-    return res.status(200).json({ message: "Success", user: updatedUser });
+        // return res.redirect(process.env.FORGETPASSFRONT);
+        return res.status(200).json({ message: "Success", user: updatedUser });
     } catch (error) {
         console.error("Error in sendCode:", error);
         return res.status(500).json({ message: "Internal Server Error" });
