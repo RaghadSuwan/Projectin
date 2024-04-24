@@ -2,7 +2,7 @@ import { Router } from 'express';
 import * as categoriesController from './categories.controller.js';
 import fileUpload, { fileValidation } from '../../services/multer.js';
 import subcategoryRouter from '../../modules/subcategory/subcategory.router.js';
-import { auth } from '../../middleware/auth.js';
+import { auth, roles } from '../../middleware/auth.js';
 import { endPoint } from './categories.endPoint.js';
 import { asyncHandler } from '../../services/errorHanding.js';
 import { validation } from '../../middleware/validation.js';
@@ -10,7 +10,7 @@ import * as validator from './categories.validation .js';
 
 const router = Router();
 router.use('/:id/subcategory', subcategoryRouter);//use: يعني اي اند بوينت
-router.get('/', auth(endPoint.getAll), asyncHandler(categoriesController.getCategories));
+router.get('/', auth(Object.values(roles)), asyncHandler(categoriesController.getCategories));
 router.get('/active', auth(endPoint.gatActive), asyncHandler(categoriesController.getactivecategories));
 router.get('/:id', auth(endPoint.specific), validation(validator.specificCategory), asyncHandler(categoriesController.specificcategory));
 router.post(
