@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import userModel from '../../DB/model/user.model.js';
 export const roles = {
-    Admin: 'Admin', User: 'User', SuperAdmin:"SuperAdmin"
+    Admin: 'Admin', User: 'User', SuperAdmin: "SuperAdmin"
 }
 export const auth = (accessRoles = []) => {
     return async (req, res, next) => {
@@ -24,15 +24,15 @@ export const auth = (accessRoles = []) => {
                 .status(404)
                 .json({ message: "Not registred user" });
         }
-        if(parseInt(user.changePasswordTime?.getTime()/1000)> decoded.iat){
-            return next(new Error(`expired token, Please login`,{cause:400}));
+        if (parseInt(user.changePasswordTime?.getTime() / 1000) > decoded.iat) {
+            return next(new Error(`expired token, Please login`, { cause: 400 }));
         }
         if (!accessRoles.includes(user.role)) {
             return res
                 .status(404)
                 .json({ message: "Not auth user" });
         }
-        req.user = user; 
+        req.user = user;
         next();
     }
 
