@@ -1,7 +1,7 @@
 import joi from 'joi';
 import { generalFields } from '../../middleware/validation.js';
 
-export const createCategory = joi.object({
+export const createProducts= joi.object({
     name: joi.string().min(3).max(20).required(),
     description: joi.string().min(2).max(200000).required(),
     stock: joi.number().integer().required(),
@@ -14,4 +14,4 @@ export const createCategory = joi.object({
     status: joi.string().valid('Active', 'Inactive'),
     categoryId: joi.string().required,
     subcategoryId: joi.string().required,
-}).required();
+})
