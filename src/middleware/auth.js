@@ -18,18 +18,21 @@ export const auth = (accessRoles = []) => {
                 .status(404)
                 .json({ message: "Invalid authorization" });
         }
-        const user = await userModel.findById(decoded.id).select("userName role")
+        const user = await userModel.findById(decoded.id).select("userName role changePasswordTime")
         if (!user) {
             return res
                 .status(404)
                 .json({ message: "Not registred user" });
+        }
+        if(parseInt(user.changePasswordTime?.getTime()/1000)> decoded.iat){
+            return next(new Error(`expired token, Please login`,{cause:400}));
         }
         if (!accessRoles.includes(user.role)) {
             return res
                 .status(404)
                 .json({ message: "Not auth user" });
         }
-        req.user = user;
+        req.user = user; 
         next();
     }
 

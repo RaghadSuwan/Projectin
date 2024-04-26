@@ -10,7 +10,7 @@ import * as validator from './categories.validation .js';
 
 const router = Router();
 router.use('/:id/subcategory', subcategoryRouter);//use: يعني اي اند بوينت
-router.get('/', auth(Object.values(roles)), asyncHandler(categoriesController.getCategories));
+router.get('/', auth(endPoint.getAll), asyncHandler(categoriesController.getCategories));
 router.get('/active', auth(endPoint.gatActive), asyncHandler(categoriesController.getactivecategories));
 router.get('/:id', auth(endPoint.specific), validation(validator.specificCategory), asyncHandler(categoriesController.specificcategory));
 router.post(
