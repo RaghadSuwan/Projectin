@@ -6,20 +6,20 @@ export const craeteCart = async (req, res, next) => {
     if (!cart) {
         const naewCart = await cartModel.create({
             userId: req.user._id,
-            produsts: { productId, quantity }
+            products: { productId, quantity }
         })
         return res.status(201).json({ message: "success", naewCart });
     }
     let matchedProduct = false;
-    for (let i = 0; i < cart.produsts.length; i++) {
-        if (cart.produsts[i].productId == productId) {
-            cart.produsts[i].quantity = quantity;
+    for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].productId == productId) {
+            cart.products[i].quantity = quantity;
             matchedProduct = true;
             break;
         }
     }
     if (!matchedProduct) {
-        cart.produsts.push({ productId, quantity });
+        cart.products.push({ productId, quantity });
     }
     await cart.save();
     return res.status(201).json({ message: "success", cart });
@@ -29,7 +29,7 @@ export const removeItem = async (req, res, next) => {
     const { productId } = req.body;
     await cartModel.updateOne({ userId: req.user._id }, {
         $pull: {
-            produsts: {
+            products: {
                 productId
             }
         }
@@ -38,7 +38,7 @@ export const removeItem = async (req, res, next) => {
 }
 
 export const clearCart = async (req, res, next) => {
-    const clearCart = await cartModel.updateOne({ userId: req.user._id }, { produsts: [] },
+    const clearCart = await cartModel.updateOne({ userId: req.user._id }, { products: [] },
     );
     return res.status(201).json({ message: "success" });
 }

@@ -10,9 +10,9 @@ const couponSchema = new Schema(
             type: Number,
             required: true,
         },
-        usedBy: {
+        usedBy: [{
             type: Types.ObjectId, ref: 'User'
-        },
+        }],
         isDeleted: {
             type: Boolean,
             default: false,
