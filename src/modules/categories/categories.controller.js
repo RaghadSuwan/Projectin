@@ -1,5 +1,5 @@
 import slugify from "slugify";
-import cloudinary from "../../services/cloudinary.js";
+import cloudinary from "../../utils/cloudinary.js";
 import categoryModel from "../../../DB/model/category.model.js";
 
 export const getCategories = async (req, res, next) => {

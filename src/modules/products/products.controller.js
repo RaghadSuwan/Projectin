@@ -1,7 +1,7 @@
 import slugify from "slugify";
 import categoryModel from "../../../DB/model/category.model.js";
 import subcategoryModel from "../../../DB/model/subcategory.model.js";
-import cloudinary from "../../services/cloudinary.js";
+import cloudinary from "../../utils/cloudinary.js";
 import productModel from "../../../DB/model/product.model.js";
 
 export const getProducts = (req, res, next) => {

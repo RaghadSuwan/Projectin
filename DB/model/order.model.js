@@ -30,11 +30,11 @@ const orderSchema = new Schema(
         },
         address: {
             type: String,
-            required: true,
+           required: true,
         },
         phoneNumber: {
             type: String,
-            required: true,
+           required: true,
         },
         updatedBy: { type: Types.ObjectId, ref: 'User', required: true },
     },

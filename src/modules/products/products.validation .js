@@ -7,11 +7,12 @@ export const createProducts= joi.object({
     stock: joi.number().integer().required(),
     price: joi.number().positive().required(),
     discount: joi.number().positive(),
+    categoryId: joi.string().required(),
+    subcategoryId: joi.string().required(),
     file: joi.object({
         mainImage: joi.array().items(generalFields.file.required()).length(1),
         subImages: joi.array().items(generalFields.file.required()).min(2).max(5)
     }),
     status: joi.string().valid('Active', 'Inactive'),
-    categoryId: joi.string().required,
-    subcategoryId: joi.string().required,
+   
 })

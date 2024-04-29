@@ -1,5 +1,5 @@
-import { asyncHandler } from '../../services/errorHanding.js';
-import fileUpload, { fileValidation } from '../../services/multer.js';
+import { asyncHandler } from '../../utils/errorHanding.js';
+import fileUpload, { fileValidation } from '../../utils/multer.js';
 import * as SubCategory from './subcategory.controller.js';
 import { Router } from 'express';
 const router = Router({mergeParams:true});

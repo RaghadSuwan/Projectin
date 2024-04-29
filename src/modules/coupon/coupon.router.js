@@ -1,7 +1,7 @@
 
 import { Router } from "express";
 import * as CouponController from './coupon.controller.js';
-import { asyncHandler } from "../../services/errorHanding.js";
+import { asyncHandler } from "../../utils/errorHanding.js";
 import { validation } from '../../middleware/validation.js';
 import * as validator from './coupon.validation .js';
 const router = Router();

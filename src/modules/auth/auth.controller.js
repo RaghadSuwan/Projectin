@@ -1,9 +1,9 @@
 import userModel from '../../../DB/model/user.model.js';
 import bcryptjs from 'bcryptjs';
-import cloudinary from '../../services/cloudinary.js';
+import cloudinary from '../../utils/cloudinary.js';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
-import { sendemail } from '../../services/email.js';
+import { sendemail } from '../../utils/email.js';
 export const SignUp = async (req, res, next) => {
     const { userName, email, password } = req.body;
     const user = await userModel.findOne({ email });
