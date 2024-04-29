@@ -12,6 +12,7 @@ const router = Router();
 router.use('/:id/subcategory', subcategoryRouter);
 router.get('/', auth(endPoint.getAll),asyncHandler(categoriesController.getCategories));
 router.get('/active', asyncHandler(categoriesController.getactivecategories));
+router.delete('/:categoryId', auth(endPoint.delete), asyncHandler(categoriesController.deleteCategory));
 router.get('/:id', validation(validator.specificCategory), asyncHandler(categoriesController.specificcategory));
 router.post(
     '/', auth(endPoint.create),

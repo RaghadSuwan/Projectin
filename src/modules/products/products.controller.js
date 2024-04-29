@@ -27,7 +27,7 @@ export const createProducts = async (req, res, next) => {
         return res.status(404).json({ message: "Sub category not found" })
     }
     req.body.slug = slugify(name);
-    req.body.finalprice = price - (price * (discount || 0) / 100).toFixed(2);
+    req.body.finalPrice = price - (price * (discount || 0) / 100).toFixed(2);
     const { secure_url, public_id } = await cloudinary.uploader.upload(req.files.mainImage[0].path, {
         folder: `${process.env.APP_NAME}/Products/${req.body.name}/mainImage`,
     });

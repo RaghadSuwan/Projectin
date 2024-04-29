@@ -27,7 +27,7 @@ const productSchema = new Schema(
             type: Number,
             defult: 0,
         },
-        finalprice: {
+        finalPrice: {
             type: Number,
         },
         mainImage: {

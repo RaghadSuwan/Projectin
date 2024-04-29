@@ -8,3 +8,7 @@ export const createCategory = joi.object({
 export const specificCategory = joi.object({
     id: joi.string().min(24).max(24).required(),
 });
+export const updateCategory = joi.object({
+    name: joi.string().min(3).max(10).required(),
+    file: generalFields.file.required(),
+});

@@ -46,7 +46,7 @@ export const confirmEmail = async (req, res, next) => {
         console.error("Error in confirmEmail:", error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
-    
+
     ///ارجعي لسطر 46***********************************
 
 
