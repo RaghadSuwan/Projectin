@@ -5,15 +5,32 @@ import cloudinary from "../../utils/cloudinary.js";
 import productModel from "../../../DB/model/product.model.js";
 import { pagination } from "../../utils/pagination.js";
 
-
 export const getProducts = async (req, res, next) => {
-    const { skip, limit } = pagination(req.query.page, req.query.limit);
-    const products = await productModel.find({}).limit(limit).skip(skip);
-    return res.json({ message: "Success", count: products.length, products });
-}
+    const {skip,limit} = pagination(req.query.page,req.query.limit);
+    let queryObject = { ...req.query };
+    const execQuery = ['skip', 'limit', 'page', 'sort', 'search','fileds'];
+    execQuery.map((ele) => {
+        delete queryObject[ele];
+    })
+    queryObject = JSON.stringify(queryObject);
+    queryObject = queryObject.replace(/\b(lt|lte|gt|gte|in|nin|neq|eq)\b/g, match=>`$${match}`);
+    queryObject = JSON.parse(queryObject);
+    const mongooseQuery = productModel.find(queryObject).limit(limit).skip(skip)
+    if(req.query.search){
+        mongooseQuery.find({
+            $or :[
+                { name:{$regex:(req.query.search), $options: 'i' } },
+                { description:{$regex:(req.query.search), $options: 'i' } }
+            ]
+        })
+    }
+    mongooseQuery.select(req.query.fileds?.replaceAll(',', ' '));
+    const total = await productModel.estimatedDocumentCount();
+    const products = await mongooseQuery.sort(req.query.sort?.replaceAll(',', ' '));
+    return res.json({message:"success", count:products.length, total, products});
+};
 export const getProduct = async (req, res, next) => {
     const product = await productModel.findById(req.params.productId)
-
     return res.json({ message: "Success", product });
 }
 export const getProductWithCategory = async (req, res, next) => {
