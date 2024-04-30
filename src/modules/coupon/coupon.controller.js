@@ -2,9 +2,9 @@ import couponModel from "../../../DB/model/coupon.model.js";
 
 export const CreateCoupon = async (req, res, next) => {
     const { name } = req.body;
-    req.body.expireDate=new Date (req.body.expireDate);
+    req.body.expireDate = new Date(req.body.expireDate);
     if (await couponModel.findOne({ name })) {
-        return res.status(409).json({ message: "Coupon name already exists" });
+        return next(new Error("Coupon name already exists", { cause: 409 }));
     }
     const coupon = await couponModel.create(req.body);
     return res.status(200).json({ message: "Success", coupon });
@@ -16,15 +16,11 @@ export const GetCoupon = async (req, res, next) => {
 export const UpdateCoupon = async (req, res, next) => {
     const coupon = await couponModel.findById(req.params.id);
     if (!coupon) {
-        return res
-            .status(404)
-            .json({ message: `Invalid coupon id ${req.params.id}` });
+        return next(new Error(`Invalid coupon id ${req.params.id}`, { cause: 404 }));
     }
     if (req.body.name) {
         if (await couponModel.findOne({ name: req.body.name }).select("name")) {
-            return res
-                .status(404)
-                .json({ message: `Coupon ${req.body.name} already exists` });
+            return next(new Error(`Coupon ${req.body.name} already exists`, { cause: 404 }));
         }
         coupon.name = req.body.name;
     }
