@@ -85,19 +85,19 @@ export const CancelOrder = async (req, res, next) => {
 };
 export const GetOrders = async (req, res, next) => {
     const orders = await orderModel.find({ userId: req.user._id });
-    if (!orders) {
-        return next(new Error('error while getting orders'));
+    if (orders.length === 0) {//When the condition is not provided, it shows an empty array, but I want it to tell him that he doesn't have any orders.
+        return next(new Error('No orders found for this user', { cause: 400 }));
     }
-    return res.status(200).json({ message: "success", orders })
+    return res.status(200).json({ message: "success", orders });
 };
 export const ChangeOrderStatus = async (req, res, next) => {
     const { orderId } = req.params;
     const order = await orderModel.findById(orderId);
     if (!order) {
-        return next(new Error('Invalid order', { cause: 404 }));
+        return next(new Error('Order not found', { cause: 404 }));
     }
     if (order.status == 'delivered' || order.status == 'cancelled') {
-        return next(new Error("can't cancel this order"));
+        return next(new Error("Can't cancel this order"));
     }
     const newOrder = await orderModel.findByIdAndUpdate(orderId, { status: req.body.status }, { new: true });
     return res.status(200).json({ message: "success", order: newOrder });

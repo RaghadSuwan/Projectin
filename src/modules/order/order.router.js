@@ -8,5 +8,5 @@ const router = Router();
 router.get('/', auth(endPoint.getAll), asyncHandler(orderController.GetOrders))
 router.post('/',auth(endPoint.create),asyncHandler(orderController.CreateOrder));
 router.patch('/cancel/:orderId', auth(endPoint.cancelOrder), asyncHandler(orderController.CancelOrder));
-router.patch('/change/:orderId', auth(endPoint.changeOrderStatus), asyncHandler(orderController.ChangeOrderStatus));
+router.patch('/changeStatus/:orderId', auth(endPoint.changeOrderStatus), asyncHandler(orderController.ChangeOrderStatus));
 export default router;
