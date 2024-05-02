@@ -4,7 +4,7 @@ import { auth, roles } from '../../middleware/auth.js';
 import { Router } from 'express';
 const router = Router();
 
-router.get('/profile', auth(Object.values(roles)), asyncHandler(userController.getProfile))
+router.get('/profile', auth(Object.values(roles)), asyncHandler(userController.GetProfile))
 
 export default router;
 

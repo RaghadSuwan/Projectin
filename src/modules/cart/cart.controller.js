@@ -1,6 +1,6 @@
 import cartModel from "../../../DB/model/cart.model.js";
 
-export const craeteCart = async (req, res, next) => {
+export const CraeteCart = async (req, res, next) => {
     const { productId, quantity } = req.body;
     const cart = await cartModel.findOne({ userId: req.user._id });
     if (!cart) {
@@ -24,7 +24,7 @@ export const craeteCart = async (req, res, next) => {
     await cart.save();
     return res.status(201).json({ message: "success", cart });
 };
-export const removeItem = async (req, res, next) => {
+export const RemoveItem = async (req, res, next) => {
     const { productId } = req.body;
     await cartModel.updateOne({ userId: req.user._id }, {
         $pull: {
@@ -35,11 +35,11 @@ export const removeItem = async (req, res, next) => {
     })
     return res.status(201).json({ message: "success" });
 };
-export const clearCart = async (req, res, next) => {
+export const ClearCart = async (req, res, next) => {
     const clearCart = await cartModel.updateOne({ userId: req.user._id }, { products: [] });
     return res.status(201).json({ message: "success" });
 };
-export const getCart = async (req, res, next) => {
+export const GetCart = async (req, res, next) => {
     const cart = await cartModel.findOne({ userId: req.user._id });
     return res.status(201).json({ message: "success", cart });
 };

@@ -5,7 +5,7 @@ import cloudinary from "../../utils/cloudinary.js";
 import productModel from "../../../DB/model/product.model.js";
 import { pagination } from "../../utils/pagination.js";
 
-export const getProducts = async (req, res, next) => {
+export const GetProducts = async (req, res, next) => {
     const { skip, limit } = pagination(req.query.page, req.query.limit);
     let queryObject = { ...req.query };
     const execQuery = ['skip', 'limit', 'page', 'sort', 'search', 'fileds'];
@@ -29,15 +29,15 @@ export const getProducts = async (req, res, next) => {
     const products = await mongooseQuery.sort(req.query.sort?.replaceAll(',', ' '));
     return res.json({ message: "success", count: products.length, total, products });
 };
-export const getProduct = async (req, res, next) => {
+export const GetProduct = async (req, res, next) => {
     const product = await productModel.findById(req.params.productId)
     return res.json({ message: "Success", product });
 };
-export const getProductWithCategory = async (req, res, next) => {
+export const GetProductWithCategory = async (req, res, next) => {
     const products = await productModel.find({ categoryId: req.params.categoryId })
     return res.json({ message: "Success", products });
 };
-export const createProducts = async (req, res, next) => {
+export const CreateProducts = async (req, res, next) => {
     const { name, price, discount, categoryId, subcategoryId } = req.body;
     const checkCategory = await categoryModel.findById(categoryId);
     if (!checkCategory) {

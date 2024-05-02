@@ -5,7 +5,7 @@ import subcategoryModel from "../../../DB/model/subcategory.model.js";
 import { pagination } from "../../utils/pagination.js";
 import productModel from "../../../DB/model/product.model.js";
 
-export const getCategories = async (req, res, next) => {
+export const GetCategories = async (req, res, next) => {
   const { skip, limit } = pagination(req.query.page, req.query.limit);
   const Categories = await categoryModel.find()
     .skip(skip)
@@ -13,7 +13,7 @@ export const getCategories = async (req, res, next) => {
     .populate('subcategory');
   return res.status(200).json({ message: "success", count: Categories.length, Categories });
 };
-export const specificcategory = async (req, res, next) => {
+export const Specificcategory = async (req, res, next) => {
   const { id } = req.params;
   const category = await categoryModel.findById(id);
   if (!category) {
@@ -21,7 +21,7 @@ export const specificcategory = async (req, res, next) => {
   }
   return res.status(200).json({ message: "success", category });
 };
-export const createcategory = async (req, res, next) => {
+export const Createcategory = async (req, res, next) => {
   const name = req.body.name.toLowerCase();
   if (await categoryModel.findOne({ name })) {
     return next(new Error("Category name already exists", { cause: 409 }));
@@ -43,7 +43,7 @@ export const createcategory = async (req, res, next) => {
     .status(200)
     .json({ message: "Category created successfully", aCategory });
 };
-export const getactivecategories = async (req, res, next) => {
+export const Getactivecategories = async (req, res, next) => {
   const { skip, limit } = pagination(req.query.page, req.query.limit);
   const categories = await categoryModel
     .find({ status: "Active" })
@@ -52,7 +52,7 @@ export const getactivecategories = async (req, res, next) => {
     .select("name image");
   return res.status(200).json({ message: "success", count: categories.length, categories });
 };
-export const updatecategory = async (req, res, next) => {
+export const Updatecategory = async (req, res, next) => {
   const category = await categoryModel.findById(req.params.id);
   if (!category) {
     return next(new Error(`Invalid category id ${req.params.id}`, { cause: 404 }));
@@ -79,7 +79,7 @@ export const updatecategory = async (req, res, next) => {
   await category.save();
   return res.status(200).json({ message: "Category updated successfully" });
 };
-export const deleteCategory = async (req, res, next) => {
+export const DeleteCategory = async (req, res, next) => {
   const { categoryId } = req.params;
   const category = await categoryModel.findByIdAndDelete(categoryId);
   if (!category) {

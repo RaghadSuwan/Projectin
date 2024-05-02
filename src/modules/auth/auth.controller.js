@@ -27,7 +27,7 @@ export const SignUp = async (req, res, next) => {
     const createUser = await userModel.create({ userName, email, password: hashedPassword, image: { secure_url, public_id } });
     return res.status(201).json({ message: "Success", user: createUser });
 };
-export const confirmEmail = async (req, res, next) => {
+export const ConfirmEmail = async (req, res, next) => {
     const token = req.params.token;
     const decodedToken = jwt.verify(token, process.env.CONFIRMEMAILSECRET);
     if (!decodedToken) {
@@ -60,7 +60,7 @@ export const SignIn = async (req, res, next) => {
     const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: 60 * 60 * 30 * 24 });
     return res.status(201).json({ message: "Success", token, refreshToken });
 };
-export const sendCode = async (req, res, next) => {
+export const SendCode = async (req, res, next) => {
     const { email } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
@@ -77,7 +77,7 @@ export const sendCode = async (req, res, next) => {
     // return res.redirect(process.env.FORGETPASSFRONT);
     return res.status(200).json({ message: "Success", user: updatedUser });
 };
-export const forgotPassword = async (req, res, next) => {
+export const ForgotPassword = async (req, res, next) => {
     const { email, password, code } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
@@ -96,7 +96,7 @@ export const forgotPassword = async (req, res, next) => {
     await user.save();
     return res.status(200).json({ message: "success" });
 };
-export const deleteUnConfirmedUsers = async (req, res, next) => {
+export const DeleteUnConfirmedUsers = async (req, res, next) => {
     const users = await userModel.deleteMany({ confirmEmail: false });
     if (!users) {
         return next(new Error("All users are confirmed", { cause: 400 }))

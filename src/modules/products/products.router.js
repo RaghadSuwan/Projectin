@@ -8,13 +8,13 @@ import { validation } from '../../middleware/validation.js';
 import * as validator from './products.validation .js';
 const router = Router();
 
-router.get('/', asyncHandler(productsController.getProducts));
+router.get('/', asyncHandler(productsController.GetProducts));
 router.post('/', auth(endPoint.create), fileUpload(fileValidation.image).fields([
     { name: 'mainImage', maxCount: 1 },
     { name: 'subImages', maxCount: 4 },
-]), validation(validator.createProducts), asyncHandler(productsController.createProducts));
-router.get('/category/:categoryId', asyncHandler(productsController.getProductWithCategory));
-router.get('/:productId', asyncHandler(productsController.getProduct));
+]), validation(validator.createProducts), asyncHandler(productsController.CreateProducts));
+router.get('/category/:categoryId', asyncHandler(productsController.GetProductWithCategory));
+router.get('/:productId', asyncHandler(productsController.GetProduct));
 
 export default router;
 
