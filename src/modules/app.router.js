@@ -6,10 +6,12 @@ import authRouter from './auth/auth.router.js';
 import cartRouter from './cart/cart.router.js';
 import orderRouter from './order/order.router.js';
 import userRouter from './user/user.router.js';
-
 import connectDB from '../../DB/connection.js';
 import { globalerrorhandler } from '../utils/errorHanding.js';
+import cors from 'cors';
+
 const initapp = async (app, express) => {
+  app.use(cors());
   app.use(express.json());
   connectDB();
   app.get('/', (req, res) => {
