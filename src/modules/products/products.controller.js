@@ -32,11 +32,11 @@ export const getProducts = async (req, res, next) => {
 export const getProduct = async (req, res, next) => {
     const product = await productModel.findById(req.params.productId)
     return res.json({ message: "Success", product });
-}
+};
 export const getProductWithCategory = async (req, res, next) => {
     const products = await productModel.find({ categoryId: req.params.categoryId })
     return res.json({ message: "Success", products });
-}
+};
 export const createProducts = async (req, res, next) => {
     const { name, price, discount, categoryId, subcategoryId } = req.body;
     const checkCategory = await categoryModel.findById(categoryId);
@@ -67,5 +67,4 @@ export const createProducts = async (req, res, next) => {
         return next(new Error("error while creating product", { cause: 404 }));
     }
     return res.status(200).json({ message: "Succcess", product })
-
-}
+};

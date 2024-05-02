@@ -4,12 +4,10 @@ export const generalFields = {
         'string.empty': "Email is required",
         'string.email': "Please enter a valid email"
     }),
-
     password: Joi.string().required().min(8).messages({
         'string.empty': "Password is required",
         'string.min': "Password should have a minimum length of {#limit} characters"
     }),
-
     file: Joi.object({
         size: Joi.number().positive().required(),
         path: Joi.string().required(),
@@ -22,7 +20,6 @@ export const generalFields = {
         dest: Joi.string(),
     })
 };
-
 export const validation = (schema) => {
     return (req, res, next) => {
         const inputsData = { ...req.body, ...req.params, ...req.query };

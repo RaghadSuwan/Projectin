@@ -79,13 +79,13 @@ export const updatecategory = async (req, res, next) => {
   await category.save();
   return res.status(200).json({ message: "Category updated successfully" });
 };
-export const deleteCategory = async(req,res,next)=>{
-const {categoryId}=req.params;
-const category= await categoryModel.findByIdAndDelete(categoryId);
-if(!category){
-  return next(new Error (`Category not found`,{cause:404}));
-}
-await subcategoryModel.deleteMany({categoryId});
-await productModel.deleteMany({categoryId});
-return res.status(200).json({message:"success"});
-}
+export const deleteCategory = async (req, res, next) => {
+  const { categoryId } = req.params;
+  const category = await categoryModel.findByIdAndDelete(categoryId);
+  if (!category) {
+    return next(new Error(`Category not found`, { cause: 404 }));
+  }
+  await subcategoryModel.deleteMany({ categoryId });
+  await productModel.deleteMany({ categoryId });
+  return res.status(200).json({ message: "success" });
+};

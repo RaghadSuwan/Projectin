@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, model } from 'mongoose';
+import mongoose, { Schema, Types, model } from "mongoose";
 const productSchema = new Schema(
     {
         name: {
@@ -34,10 +34,12 @@ const productSchema = new Schema(
             type: Object,
             required: true,
         },
-        subImages: [{
-            type: Object,
-            required: true,
-        }],
+        subImages: [
+            {
+                type: Object,
+                required: true,
+            },
+        ],
         numberSellers: {
             type: Number,
             defult: 0,
@@ -48,23 +50,25 @@ const productSchema = new Schema(
         },
         status: {
             type: String,
-            default: 'Active',
-            enum: ['Active', 'Inactive'],
+            default: "Active",
+            enum: ["Active", "Inactive"],
         },
         colors: [String],
-        sizes: [{
-            type: String,
-            enum: ['s', 'm', '', 'lg', 'xl'],
-        }],
-        categoryId: { type: Types.ObjectId, ref: 'Category', required: true },
-        subcategoryId: { type: Types.ObjectId, ref: 'Subcategory', required: true },
-        createdBy: { type: Types.ObjectId, ref: 'User', required: true },
-        updatedBy: { type: Types.ObjectId, ref: 'User', required: true },
+        sizes: [
+            {
+                type: String,
+                enum: ["s", "m", "", "lg", "xl"],
+            },
+        ],
+        categoryId: { type: Types.ObjectId, ref: "Category", required: true },
+        subcategoryId: { type: Types.ObjectId, ref: "Subcategory", required: true },
+        createdBy: { type: Types.ObjectId, ref: "User", required: true },
+        updatedBy: { type: Types.ObjectId, ref: "User", required: true },
     },
     {
         timestamps: true,
     }
 );
-const productModel =
-    mongoose.models.Product || model('Product', productSchema);
+
+const productModel = mongoose.models.Product || model("Product", productSchema);
 export default productModel;

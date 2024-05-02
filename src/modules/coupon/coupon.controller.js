@@ -8,11 +8,11 @@ export const CreateCoupon = async (req, res, next) => {
     }
     const coupon = await couponModel.create(req.body);
     return res.status(200).json({ message: "Success", coupon });
-}
+};
 export const GetCoupon = async (req, res, next) => {
     const coupons = await couponModel.find({ isDeleted: false });
     return res.status(200).json({ message: "Success", coupons });
-}
+};
 export const UpdateCoupon = async (req, res, next) => {
     const coupon = await couponModel.findById(req.params.id);
     if (!coupon) {
@@ -25,13 +25,11 @@ export const UpdateCoupon = async (req, res, next) => {
         coupon.name = req.body.name;
     }
     if (req.body.amount) {
-
         coupon.amount = req.body.amount;
     }
     await coupon.save();
     return res.status(200).json({ message: "Success", coupon });
-
-}
+};
 export const SoftDelete = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: false }, { isDeleted: true },
@@ -40,7 +38,7 @@ export const SoftDelete = async (req, res, next) => {
         return next(new Error("Can't delete this coupon", { cause: 400 }));
     }
     return res.status(200).json({ message: "Success" });
-}
+};
 export const HardDelete = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndDelete({ _id: id, isDeleted: true })
@@ -48,7 +46,7 @@ export const HardDelete = async (req, res, next) => {
         return next(new Error("Can't delete this coupon", { cause: 400 }));
     }
     return res.status(200).json({ message: "Success" });
-}
+};
 export const Restore = async (req, res, next) => {
     const { id } = req.params;
     const coupon = await couponModel.findOneAndUpdate({ _id: id, isDeleted: true }, { isDeleted: false },
@@ -57,4 +55,4 @@ export const Restore = async (req, res, next) => {
         return next(new Error("coupon not found", { cause: 400 }));
     }
     return res.status(200).json({ message: "Success" });
-}
+};

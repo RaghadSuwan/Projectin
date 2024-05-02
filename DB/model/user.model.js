@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from "mongoose";
 const userSchema = new Schema(
   {
     userName: {
@@ -32,30 +32,30 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ['Male', 'Female'],
+      enum: ["Male", "Female"],
     },
     status: {
       type: String,
-      default: 'Active',
-      enum: ['Active', 'Inactive'],
+      default: "Active",
+      enum: ["Active", "Inactive"],
     },
     role: {
       type: String,
-      default: 'User',
-      enum: ['User', 'Admin'],
+      default: "User",
+      enum: ["User", "Admin"],
     },
     sendCode: {
       type: String,
       default: null,
-    }, 
+    },
     changePasswordTime: {
       type: Date,
-    }
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const userModel = mongoose.models.User || model('User', userSchema);
+const userModel = mongoose.models.User || model("User", userSchema);
 export default userModel;

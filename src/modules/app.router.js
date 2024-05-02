@@ -23,11 +23,10 @@ const initapp = async (app, express) => {
   app.use('/cart', cartRouter);
   app.use('/order', orderRouter);
   app.use('/user', userRouter);
-
   app.get('*', (req, res) => {
     return res.status(500).json({ message: "Page not found.." });
   });
   app.use(globalerrorhandler);
-}
+};
 
 export default initapp;

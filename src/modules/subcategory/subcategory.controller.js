@@ -25,9 +25,7 @@ export const CreateSubCategory = async (req, res, next) => {
         image: { secure_url, public_id },
     });
     return res.status(200).json({ message: "Sub Category created successfully", subCategory });
-
-}
-
+};
 export const GetSubCategories = async (req, res, next) => {
     const categoryId = req.params.id;
     const category = await categoryModel.findById(categoryId)
@@ -36,4 +34,4 @@ export const GetSubCategories = async (req, res, next) => {
     }
     const subCategory = await subcategoryModel.find({ categoryId }).populate({ path: 'categoryId' });
     return res.status(200).json({ message: "Success", subCategory });
-}
+};

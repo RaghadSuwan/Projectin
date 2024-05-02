@@ -5,5 +5,5 @@ export const getProfile = async (req, res, next) => {
     if (!user) {
         return next(new Error("error while getting profile"))
     }
-    return res.status(200).json({message: 'Sucess', user})
-}
+    return res.status(200).json({ message: 'Sucess', user })
+};

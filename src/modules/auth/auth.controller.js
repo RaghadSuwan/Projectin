@@ -4,6 +4,7 @@ import cloudinary from '../../utils/cloudinary.js';
 import jwt from 'jsonwebtoken';
 import { customAlphabet } from 'nanoid';
 import { sendemail } from '../../utils/email.js';
+
 export const SignUp = async (req, res, next) => {
     const { userName, email, password } = req.body;
     const user = await userModel.findOne({ email });
@@ -57,7 +58,6 @@ export const SignIn = async (req, res, next) => {
         // , { expiresIn: '50m' }
     );
     const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGINSECRET, { expiresIn: 60 * 60 * 30 * 24 });
-
     return res.status(201).json({ message: "Success", token, refreshToken });
 };
 export const sendCode = async (req, res, next) => {
@@ -80,7 +80,6 @@ export const sendCode = async (req, res, next) => {
 export const forgotPassword = async (req, res, next) => {
     const { email, password, code } = req.body;
     const user = await userModel.findOne({ email });
-
     if (!user) {
         return next(new Error("not register account !", { cause: 404 }));
     }
@@ -103,4 +102,4 @@ export const deleteUnConfirmedUsers = async (req, res, next) => {
         return next(new Error("All users are confirmed", { cause: 400 }))
     }
     return res.status(200).json({ message: success });
-}
+};

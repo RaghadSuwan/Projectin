@@ -1,9 +1,10 @@
 import nodemailer from "nodemailer";
+
 export async function sendemail(to, subject, html) {
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
-    secure: false, 
+    secure: false,
     requireTLS: true,
     auth: {
       user: process.env.EMAILSENDER,
@@ -11,7 +12,7 @@ export async function sendemail(to, subject, html) {
     },
   });
   const info = await transporter.sendMail({
-    from: `R-Store <${process.env.EMAILSENDER}>`, 
+    from: `R-Store <${process.env.EMAILSENDER}>`,
     to,
     subject,
     html,

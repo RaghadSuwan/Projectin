@@ -5,6 +5,7 @@ import { validation } from '../../middleware/validation.js';
 import * as validator from './auth.validation.js';
 import { Router } from 'express';
 const router = Router();
+
 router.post(
     '/signup',
     fileUpload(fileValidation.image).single('image'),
@@ -16,5 +17,6 @@ router.post('/signin', validation(validator.signIn), asyncHandler(AuthController
 router.patch('/sendCode', validation(validator.sendCode), asyncHandler(AuthController.sendCode));
 router.patch('/forgotPassword', asyncHandler(AuthController.forgotPassword));
 router.delete("/deleteUnconfirmed", asyncHandler(AuthController.deleteUnConfirmedUsers));
+
 export default router;
 

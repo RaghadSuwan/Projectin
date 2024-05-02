@@ -6,4 +6,4 @@ const PORT = process.env.PORT || 3000;
 initapp(app, express);
 app.listen(PORT, () => {
   console.log(`Server is running.. ${PORT}`);
-})
+});
