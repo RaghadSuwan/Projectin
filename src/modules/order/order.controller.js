@@ -99,6 +99,14 @@ export const ChangeOrderStatus = async (req, res, next) => {
     if (order.status == 'delivered' || order.status == 'cancelled') {
         return next(new Error("Can't cancel this order"));
     }
+    if (req.body.status == 'cancelled') {
+        for (const product of order.products) {
+            await productModel.findByIdAndUpdate({ _id: product.productId }, { $inc: { stock: product.quantity } })
+        }
+    }
+    if (order.couponName) {
+        await couponModel.updateOne({ name: order.couponName }, { $pull: { usedBy: order.userId } });
+    }
     const newOrder = await orderModel.findByIdAndUpdate(orderId, { status: req.body.status }, { new: true });
     return res.status(200).json({ message: "success", order: newOrder });
 };
