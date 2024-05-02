@@ -16,7 +16,6 @@ const brandSchema = new Schema(
         },
         status: {
             type: String,
-            type: String,
             default: "Active",
             enum: ["Active", "Inactive"],
         },
