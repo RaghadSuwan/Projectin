@@ -2,7 +2,8 @@ import multer from "multer"
 
 export const fileValidation = {
   image: ['image/png', 'image/jpeg', 'image/webp'],
-  pdf: ['appliction/pdf']
+  pdf: ['appliction/pdf'],
+  excel: ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
 };
 function fileUpload(customValidation = []) //فانكشن لنوع اسم بالرفع
 {
