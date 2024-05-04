@@ -1,5 +1,6 @@
 import userModel from "../../../DB/model/user.model.js";
 import XLSX from "xlsx";
+import { createPdf } from "../../utils/pdf.js";
 
 export const GetProfile = async (req, res, next) => {
     const user = await userModel.findById(req.user._id);
@@ -16,4 +17,8 @@ export const uploadUserExcel = async (req, res, next) => {
         return next(new Error(`Could not insert`, { cause: 400 }));
     }
     return res.status(201).json({ message: "success" });
+};
+export const GetUsers = async (req, res, next)=>{ 
+let getUsers = await userModel.find({}).lean();
+await createPdf(getUsers,'listUsers.pdf',req,res);
 };

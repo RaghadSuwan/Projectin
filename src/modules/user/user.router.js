@@ -7,6 +7,6 @@ const router = Router();
 
 router.get('/profile', auth(Object.values(roles)), asyncHandler(userController.GetProfile))
 router.post("/uploadUsersExcel",auth(['Admin']),fileUpload(fileValidation.excel).single('file'),asyncHandler(userController.uploadUserExcel))
-
+router.get('/getUsers',asyncHandler(userController.GetUsers));
 export default router;
 

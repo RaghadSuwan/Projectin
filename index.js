@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import initapp from "./src/modules/app.router.js";
+import { createPdf } from "./src/utils/pdf.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 initapp(app, express);
