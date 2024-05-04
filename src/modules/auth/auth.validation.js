@@ -11,6 +11,11 @@ export const signIn = joi.object({
     email: generalFields.email,
     password: generalFields.password,
 });
+export const forgotPassword = joi.object({
+    email: generalFields.email,
+    password: generalFields.password,
+    code:joi.required(),
+});
 export const sendCode = joi.object({
     email: generalFields.email,
 });

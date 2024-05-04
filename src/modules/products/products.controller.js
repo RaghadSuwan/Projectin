@@ -26,11 +26,11 @@ export const GetProducts = async (req, res, next) => {
     }
     mongooseQuery.select(req.query.fileds?.replaceAll(',', ' '));
     const total = await productModel.estimatedDocumentCount();
-    const products = await mongooseQuery.sort(req.query.sort?.replaceAll(',', ' '));
+    const products = await mongooseQuery.sort(req.query.sort?.replaceAll(',', ' ')).populate("reviews");
     return res.json({ message: "success", count: products.length, total, products });
 };
 export const GetProduct = async (req, res, next) => {
-    const product = await productModel.findById(req.params.productId)
+    const product = await productModel.findById(req.params.productId).populate("reviews");
     return res.json({ message: "Success", product });
 };
 export const GetProductWithCategory = async (req, res, next) => {
