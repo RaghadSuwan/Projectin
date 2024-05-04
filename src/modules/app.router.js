@@ -17,6 +17,7 @@ const initapp = async (app, express) => {
   app.get('/', (req, res) => {
     return res.status(200).json({ message: "Welcome.." });
   });
+  app.use(express.static('./'));
   app.use('/categories', categoriesRouter);
   app.use('/products', productsRouter);
   app.use('/auth', authRouter);
