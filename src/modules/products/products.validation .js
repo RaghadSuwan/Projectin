@@ -8,7 +8,7 @@ export const createProducts = joi.object({
     price: joi.number().positive().required(),
     discount: joi.number().positive(),
     categoryId: joi.string().required(),
-    //subcategoryId: joi.string().required(),
+    subcategoryId: joi.string().required(),
     file: joi.object({
         mainImage: joi.array().items(generalFields.file.required()).length(1),
         subImages: joi.array().items(generalFields.file.required()).min(2).max(5)
