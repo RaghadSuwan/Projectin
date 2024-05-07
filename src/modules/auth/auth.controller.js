@@ -6,25 +6,36 @@ import { customAlphabet } from 'nanoid';
 import { sendemail } from '../../utils/email.js';
 
 export const SignUp = async (req, res, next) => {
-    const { userName, email, password } = req.body;
+    const { firstName,lastName, email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (user) {
         return next(new Error("email already exists", { cause: 409 }));
     }
-    const hashedPassword = await bcryptjs.hash(password, parseInt(process.env.SALT_ROUND));
+    const hashedPassword = await bcryptjs.hash(
+        password,
+        parseInt(process.env.SALT_ROUND)
+    );
     const { secure_url, public_id } = await cloudinary.uploader.upload(
         req.file.path,
         {
             folder: `${process.env.APP_NAME}/User`,
         }
     );
-    const token = jwt.sign({ email }, process.env.CONFIRMEMAILSECRET, { expiresIn: '1d' });
+    const token = jwt.sign({ email }, process.env.CONFIRMEMAILSECRET, {
+        expiresIn: "1d",
+    });
     await sendemail(
         email,
         "Confirm Email",
         `<a href='${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}'>Verify</a>`
     );
-    const createUser = await userModel.create({ userName, email, password: hashedPassword, image: { secure_url, public_id } });
+    const createUser = await userModel.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+        image: { secure_url, public_id },
+    });
     return res.status(201).json({ message: "Success", user: createUser });
 };
 export const ConfirmEmail = async (req, res, next) => {

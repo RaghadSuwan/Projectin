@@ -58,12 +58,18 @@ export const Updatecategory = async (req, res, next) => {
   if (!category) {
     return next(new Error("invalid category id !", { cause : 404 }));
   }
-  if (req.body.name) {
-    if (await categoryModel.findOne({ name: req.body.name, _id:{$ne: category._id}})) {
-      return next(new Error(`Category name exist :: ${req.body.name}`, { cause : 409 }));
+  if (req.body.name && req.body.name !== category.name) {
+    const existingcategory = await categoryModel.findOne({
+      name: req.body.name,
+    });
+    if (existingcategory) {
+      return next(
+        new Error(`Category ${req.body.name} already exists`, { cause: 409 })
+      );
     }
+    const lowercaseName = req.body.name.toLowerCase();
     category.name = req.body.name;
-    category.slug = slugify(req.body.name);
+    category.slug = slugify(lowercaseName);
   }
   if (req.body.status) {
     category.status = req.body.status;
@@ -94,3 +100,5 @@ export const DeleteCategory = async (req, res, next) => {
   await productModel.deleteMany({ categoryId });
   return res.status(200).json({ message: "success" });
 };
+
+

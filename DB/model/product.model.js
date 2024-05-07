@@ -7,6 +7,10 @@ const productSchema = new Schema(
             unique: true,
             trim: true,
         },
+        author: {
+            type: String,
+            required: true,
+        },
         slug: {
             type: String,
             required: true,

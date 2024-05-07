@@ -17,6 +17,9 @@ router.post('/', auth(endPoint.create), fileUpload(fileValidation.image).fields(
 ]), validation(validator.createProducts), asyncHandler(productsController.CreateProducts));
 router.get('/category/:categoryId', asyncHandler(productsController.GetProductWithCategory));
 router.get('/:productId', asyncHandler(productsController.GetProduct));
-
+router.put('/', auth(endPoint.update), fileUpload(fileValidation.image).fields([
+    { name: 'mainImage', maxCount: 1 },
+    { name: 'subImages', maxCount: 4 },
+]), asyncHandler(productsController.UpdateProduct));
 export default router;
 

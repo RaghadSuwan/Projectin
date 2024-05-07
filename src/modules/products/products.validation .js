@@ -14,4 +14,5 @@ export const createProducts = joi.object({
         subImages: joi.array().items(generalFields.file.required()).min(2).max(5)
     }),
     status: joi.string().valid('Active', 'Inactive'),
+    author:joi.string().required(),
 });

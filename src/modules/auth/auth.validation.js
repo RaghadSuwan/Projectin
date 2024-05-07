@@ -1,11 +1,12 @@
-import joi from 'joi';
-import { generalFields } from '../../middleware/validation.js';
+import joi from "joi";
+import { generalFields } from "../../middleware/validation.js";
 
 export const signUp = joi.object({
-    userName: joi.string().min(3).max(20).required(),
+    firstName: joi.string().min(3).max(20).required(),
+    lastName: joi.string().min(3).max(20).required(),
     email: generalFields.email,
     password: generalFields.password,
-    file: generalFields.file
+    file: generalFields.file,
 });
 export const signIn = joi.object({
     email: generalFields.email,
@@ -14,7 +15,7 @@ export const signIn = joi.object({
 export const forgotPassword = joi.object({
     email: generalFields.email,
     password: generalFields.password,
-    code:joi.required(),
+    code: joi.required(),
 });
 export const sendCode = joi.object({
     email: generalFields.email,
