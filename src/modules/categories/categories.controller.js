@@ -54,15 +54,20 @@ export const Getactivecategories = async (req, res, next) => {
 };
 export const Updatecategory = async (req, res, next) => {
   const category = await categoryModel.findById(req.params.id);
+
   if (!category) {
-    return next(new Error(`Invalid category id ${req.params.id}`, { cause: 404 }));
+    return next(new Error("invalid category id !", { cause : 404 }));
   }
-  if (await categoryModel.findOne({ name: req.body.name, _id: { $ne: category._id } }).select("name")) {
-    return next(new Error(`Category ${req.body.name} already exists`, { cause: 404 }));
+  if (req.body.name) {
+    if (await categoryModel.findOne({ name: req.body.name, _id:{$ne: category._id}})) {
+      return next(new Error(`Category name exist :: ${req.body.name}`, { cause : 409 }));
+    }
+    category.name = req.body.name;
+    category.slug = slugify(req.body.name);
   }
-  category.name = req.body.name;
-  category.slug = slugify(req.body.name);
-  category.status = req.body.status;
+  if (req.body.status) {
+    category.status = req.body.status;
+  }
   if (req.file) {
     const { secure_url, public_id } = await cloudinary.uploader.upload(
       req.file.path,
