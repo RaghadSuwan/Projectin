@@ -4,6 +4,7 @@ import productsRouter from './products/products.router.js';
 import couponRouter from './coupon/coupon.router.js';
 import authRouter from './auth/auth.router.js';
 import cartRouter from './cart/cart.router.js';
+import bookingRouter from './booking/booking.router.js';
 import orderRouter from './order/order.router.js';
 import userRouter from './user/user.router.js';
 import connectDB from '../../DB/connection.js';
@@ -26,6 +27,7 @@ const initapp = async (app, express) => {
   app.use('/cart', cartRouter);
   app.use('/order', orderRouter);
   app.use('/user', userRouter);
+  app.use('/booking', bookingRouter);
   app.get('*', (req, res) => {
     return res.status(500).json({ message: "Page not found.." });
   });

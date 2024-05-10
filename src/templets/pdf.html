@@ -64,14 +64,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Username</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
                     <th>Email</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each users}}
                 <tr>
-                    <td>{{this.userName}}</td>
+                    <td>{{this.firstName}}</td>
+                    <td>{{this.lastName}}</td>
                     <td>{{this.email}}</td>
                 </tr>
                 {{/each}}

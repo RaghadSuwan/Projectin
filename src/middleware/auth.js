@@ -16,7 +16,7 @@ export const auth = (accessRoles = []) => {
         if (!decoded) {
             return next(new Error("Invalid authorization", { cause: 404 }))
         }
-        const user = await userModel.findById(decoded.id).select("userName role changePasswordTime")
+        const user = await userModel.findById(decoded.id).select("lastName firstName role changePasswordTime")
         if (!user) {
             return next(new Error("Not registred user", { Cause: 400 }))
         }
