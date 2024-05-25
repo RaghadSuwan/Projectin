@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types, model } from "mongoose";
 
-const bookingSchema = new Schema(
+const borrowingSchema = new Schema(
     {
         user_id: { type: Types.ObjectId, ref: "User", required: true },
         productId: { type: Types.ObjectId, ref: "Product", required: true },
@@ -18,5 +18,5 @@ const bookingSchema = new Schema(
     }
 );
 
-const bookingModel = mongoose.models.Booking || model("Booking", bookingSchema);
-export default bookingModel;
+const borrowingModel = mongoose.models.Borrowing || model("Borrowing", borrowingSchema);
+export default borrowingModel;

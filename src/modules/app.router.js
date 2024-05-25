@@ -4,7 +4,7 @@ import productsRouter from './products/products.router.js';
 import couponRouter from './coupon/coupon.router.js';
 import authRouter from './auth/auth.router.js';
 import cartRouter from './cart/cart.router.js';
-import bookingRouter from './booking/booking.router.js';
+import borrowingRouter from './borrowing/borrowing.router.js';
 import orderRouter from './order/order.router.js';
 import userRouter from './user/user.router.js';
 import connectDB from '../../DB/connection.js';
@@ -36,7 +36,7 @@ const initapp = async (app, express) => {
   app.use('/cart', cartRouter);
   app.use('/order', orderRouter);
   app.use('/user', userRouter);
-  app.use('/booking', bookingRouter);
+  app.use('/borrowing', borrowingRouter);
 
   app.get('/', (req, res) => {
     res.send('<a href="/auth/google">Sign in with Google</a>');
