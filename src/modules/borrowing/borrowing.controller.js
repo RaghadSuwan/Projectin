@@ -13,9 +13,7 @@ export const Createborrowing = async (req, res, next) => {
     end.setDate(start.getDate() + 30);
     const product = await productModel.findById(productId);
     if (!product || product.stock <= 0) {
-        return res
-            .status(404)
-            .json({ message: "Product not found or not available" });
+        return next(new Error("Product not found or not available", { cause: 404 }));
     }
     const borrowing = await borrowingModel.create({
         user_id: req.user._id,
@@ -31,9 +29,7 @@ export const Createborrowing = async (req, res, next) => {
 export const Getborrowings = async (req, res, next) => {
     const borrowings = await borrowingModel.find({ user_id: req.user._id });
     if (borrowings.length === 0) {
-        return res
-            .status(404)
-            .json({ message: "No borrowings found for this user" });
+        return next(new Error("No borrowings found for this user", { cause: 404 }));
     }
     return res.status(200).json({ message: "Success", borrowings });
 };
@@ -41,7 +37,7 @@ export const Returnborrowing = async (req, res, next) => {
     const { borrowingId } = req.params;
     const borrowing = await borrowingModel.findById(borrowingId);
     if (!borrowing) {
-        return res.status(404).json({ message: "borrowing not found" });
+        return next(new Error("borrowing not found", { cause: 404 }));
     }
     borrowing.status = "Returned";
     borrowing.return_date = new Date();
@@ -62,9 +58,7 @@ export const Cancelborrowing = async (req, res, next) => {
             { new: true }
         );
         if (!borrowing) {
-            return res
-                .status(404)
-                .json({ message: "Cannot find borrowing or already processed" });
+            return next(new Error("Cannot find borrowing or already processed", { cause: 404 }));
         }
         const product = await productModel.findById(borrowing.productId);
         if (product) {
