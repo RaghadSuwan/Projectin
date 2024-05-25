@@ -19,4 +19,3 @@ router.patch('/forgotPassword', validation(validator.forgotPassword), asyncHandl
 router.delete("/deleteUnconfirmed", asyncHandler(AuthController.DeleteUnConfirmedUsers));
 
 export default router;
-

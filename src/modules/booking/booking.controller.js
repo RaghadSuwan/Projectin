@@ -1,5 +1,5 @@
 import productModel from "../../../DB/model/product.model.js";
-import bookingModel from "../../../DB/model/booking.model.js";
+// import bookingModel from "../../../DB/model/booking.model.js";
 
 export const CreateBooking = async (req, res, next) => {
     const { productId, startDate, endDate } = req.body;

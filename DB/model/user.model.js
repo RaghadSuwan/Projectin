@@ -1,17 +1,22 @@
 import mongoose, { Schema, model } from "mongoose";
 const userSchema = new Schema(
-  {   firstName: {
-    type: String,
-    required: true,
-    min: 3,
-    max: 20,
-  },
-  lastName: {
-    type: String,
-    required: true,
-    min: 3,
-    max: 20,
-  },
+  {
+    googleId: {
+      type: String,
+      unique: true,
+    },
+    firstName: {
+      type: String,
+      required: true,
+      min: 3,
+      max: 20,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      min: 3,
+      max: 20,
+    },
     email: {
       type: String,
       required: true,
@@ -19,7 +24,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     image: {
       type: Object,

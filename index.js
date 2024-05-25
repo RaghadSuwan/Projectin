@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import passport from 'passport';
 import initapp from "./src/modules/app.router.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
