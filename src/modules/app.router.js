@@ -10,24 +10,23 @@ import userRouter from './user/user.router.js';
 import connectDB from '../../DB/connection.js';
 import { globalerrorhandler } from '../utils/errorHanding.js';
 import cors from 'cors';
-import session from'express-session';
-import passport from'passport';
+import session from 'express-session';
+import passport from 'passport';
 import * as auth from './auth.js';
 
 function isLoggedIn(req, res, next) {
-  console.log(req.user); // قم بطباعة بيانات المستخدم للتحقق منها
   req.user ? next() : res.sendStatus(401);
 }
 const initapp = async (app, express) => {
   app.use(cors());
   app.use(express.json());
   app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
   connectDB();
-  app.get('/', (req, res) => {
-    return res.status(200).json({ message: "Welcome.." });
-  });
+  // app.get('/', (req, res) => {
+  //   return res.status(200).json({ message: "Welcome.." });
+  // });
   app.use(express.static('./'));
   app.use('/categories', categoriesRouter);
   app.use('/products', productsRouter);
@@ -38,35 +37,35 @@ app.use(passport.session());
   app.use('/order', orderRouter);
   app.use('/user', userRouter);
   app.use('/booking', bookingRouter);
-  
-app.get('/', (req, res) => {
-  res.send('<a href="/auth/google">Authenticate with Google</a>');
-});
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
-));
+  app.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Sign in with Google</a>');
+  });
 
-app.get( '/auth/google/callback',
-  passport.authenticate( 'google', {
-    successRedirect: '/protected',
-    failureRedirect: '/auth/google/failure'
-  })
-);
+  app.get('/auth/google',
+    passport.authenticate('google', { scope: ['email', 'profile'] }
+    ));
 
-app.get('/protected', isLoggedIn, (req, res) => {
-  res.send(`Hello ${req.user.firstName} ${req.user.lastName}`);
-});
+  app.get('/auth/google/callback',//تأكد من المصادقة
+    passport.authenticate('google', {
+      successRedirect: '/protected',
+      failureRedirect: '/auth/google/failure'
+    })
+  );
 
-app.get('/logout', (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send('Goodbye!');
-});
+  app.get('/protected', isLoggedIn, (req, res) => {
+    res.send(`Hello ${req.user.firstName} ${req.user.lastName}`);
+  });
 
-app.get('/auth/google/failure', (req, res) => {
-  res.send('Failed to authenticate..');
-});
+  // app.get('/logout', (req, res) => {
+  //   req.logout();
+  //   req.session.destroy();
+  //   res.send('Goodbye!');
+  // });
+
+  app.get('/auth/google/failure', (req, res) => {
+    res.send('Failed to authenticate..');
+  });
 
   app.get('*', (req, res) => {
     return res.status(500).json({ message: "Page not found.." });
